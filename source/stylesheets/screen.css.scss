@@ -37,6 +37,18 @@ html, body {
   -webkit-text-size-adjust: none; /* Never autoresize text */
 }
 
+#logo {
+  font-weight: 300;
+  font-size: 32px;
+  color:#fff;
+  margin: 0 0;
+  padding: 15px 15px;
+  
+  span {
+    font-weight: 400;
+  }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // TABLE OF CONTENTS
 ////////////////////////////////////////////////////////////////////////////////
@@ -86,6 +98,7 @@ html, body {
     a {
       padding-top: 0.5em;
       padding-bottom: 0.5em;
+      font-weight: 300;
     }
   }
 
@@ -98,6 +111,7 @@ html, body {
     position: relative;
 
     input {
+      font-weight: 300;
       background: $nav-bg;
       border-width: 0 0 1px 0;
       border-color: $search-box-border-color;
@@ -137,7 +151,7 @@ html, body {
       margin-bottom: 1em;
     }
 
-    @include embossed-bg;
+    //@include embossed-bg;
 
     li {
       margin: 1em $nav-padding;
@@ -182,7 +196,7 @@ html, body {
 
   // This is the currently selected ToC entry
   .tocify-focus {
-    @include box-shadow(0px 1px 0px $nav-active-shadow);
+    //@include box-shadow(0px 1px 0px $nav-active-shadow);
     background-color: $nav-active-bg;
     color: $nav-active-text;
   }
@@ -199,7 +213,7 @@ html, body {
     }
 
     // for embossed look:
-    @include embossed-bg;
+    //@include embossed-bg;
     &>li:last-child {
       box-shadow: none; // otherwise it'll overflow out of the subheader
     }
@@ -307,6 +321,7 @@ html, body {
     text-decoration: none;
     padding: 0 10px;
     line-height: 30px;
+    font-weight: 300;
     outline: 0;
 
     &:active, &:focus {
@@ -355,7 +370,13 @@ html, body {
 
   &>ul, &>ol {
     padding-left: $main-padding + 15px;
+    
+    li {
+      padding-left: 10px;
+    }
   }
+  
+  
 
   // the div is the tocify hidden div for placeholding stuff
   &>h1, &>h2, &>div {
@@ -367,13 +388,11 @@ html, body {
     font-size: 30px;
     padding-top: 0.5em;
     padding-bottom: 0.5em;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 3px solid #eff0f4;
     margin-bottom: $h1-margin-bottom;
     margin-top: 2em;
-    border-top: 1px solid #ddd;
-    @include background-image(
-      linear-gradient(top, #fff, #f9f9f9)
-    );
+    border-top: 1px solid #eff0f4;
+    background: #eff0f4;
   }
 
   h1:first-child, div:first-child + h1 {
@@ -386,7 +405,7 @@ html, body {
     font-size: 20px;
     margin-top: 4em;
     margin-bottom: 0;
-    border-top: 1px solid #ccc;
+    border-top: 3px solid #eff0f4;
     padding-top: 1.2em;
     padding-bottom: 1.2em;
     @include background-image(
@@ -524,7 +543,7 @@ html, body {
     margin: -2px;
     border-radius: 4px;
     border: 1px solid #F7E633;
-    @include text-shadow(1px 1px 0 #666);
+    //@include text-shadow(1px 1px 0 #666);
     @include background(linear-gradient(bottom right, #F7E633 0%, #F1D32F 100%));
   }
 }
@@ -535,11 +554,11 @@ html, body {
 // This is all the stuff that appears in the right half of the page
 
 .content {
-  pre, blockquote {
+  pre {
     background-color: $code-bg;
     color: #fff;
 
-    padding: 2em $main-padding;
+    padding: 1em $main-padding;
     margin: 0;
     width: $examples-width;
 
@@ -559,6 +578,25 @@ html, body {
       border-bottom: dashed 1px #ccc;
     }
   }
+  
+  blockquote  {
+    background-color: $code-bg;
+    color: #fff;
+
+    padding: 1em 0;
+    margin: 0;
+    width: $examples-width;
+
+    float:right;
+    clear:right;
+
+    @include box-sizing(border-box);
+    @include text-shadow(0px 1px 2px rgba(0,0,0,0.4));
+
+    @extend %right-col;
+
+    &>p { margin: 0; }
+  }
 
   pre {
     @extend %code-font;
@@ -567,12 +605,17 @@ html, body {
   blockquote {
     &>p {
       background-color: $code-annotation-bg;
-      border-radius: 5px;
-      padding: $code-annotation-padding;
+      border-radius: 0px;
+      padding: $code-annotation-padding $main-padding;
       color: #ccc;
-      border-top: 1px solid #000;
-      border-bottom: 1px solid #404040;
+      //border-top: 1px solid #000;
+      //border-bottom: 1px solid #404040;
     }
+  }
+  
+  a {
+    font-weight: bold;
+    color: $link-text;
   }
 }
 
