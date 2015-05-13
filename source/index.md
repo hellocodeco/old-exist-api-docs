@@ -516,6 +516,8 @@ Name  | Description
 ------|--------
 `limit` | Number of values to return, starting with today. Optional, max is 100.
 `page`  | Page index. Optional, default is 1.
+`date_min` | Oldest date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
+`date_max` | Most recent date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
 
 
 # Insights
@@ -601,6 +603,8 @@ Name  | Description
 ------|--------
 `limit` | Number of values to return, starting with today. Optional, max is 100.
 `page`  | Page index. Optional, default is 1.
+`date_min` | Oldest date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
+`date_max` | Most recent date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
 
 ## Get all insights for attribute
 
@@ -661,6 +665,8 @@ Name  | Description
 ------|--------
 `limit` | Number of values to return, starting with today. Optional, max is 100.
 `page`  | Page index. Optional, default is 1.
+`date_min` | Oldest date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
+`date_max` | Most recent date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
 
 # Averages
 
@@ -775,6 +781,8 @@ Name  | Description
 ------|--------
 `limit` | Number of values to return, starting with today. Optional, max is 100.
 `page`  | Page index. Optional, default is 1.
+`date_min` | Oldest date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
+`date_max` | Most recent date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
 
 
 # Correlations
@@ -807,8 +815,8 @@ requests.get("https://exist.io/api/1/users/$self/correlations/attribute/steps/",
             "attribute2": "steps_distance", 
             "value": 0.999735821732415, 
             "p": 5.43055953485446e-146, 
-            "first_person": "I am almost certain (100%) to travel a further distance on days I take more steps. Obviously.", 
-            "second_person": "You are almost certain (100%) to travel a further distance on days you take more steps. Obviously."
+            "first_person": "I am almost certain (100%) to travel a further distance on days I take more steps.", 
+            "second_person": "You are almost certain (100%) to travel a further distance on days you take more steps."
         }, 
         {
             "date": "2015-05-11", 
@@ -840,6 +848,9 @@ Name  | Description
 ------|--------
 `limit` | Number of values to return, starting with today. Optional, max is 100.
 `page`  | Page index. Optional, default is 1.
+`date_min` | Oldest date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
+`date_max` | Most recent date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
+`latest` | Set this to `true` to return only the most recently generated batch of correlations. Use this on its own without `date_min` and `date_max`.
 
 # API roadmap
 
