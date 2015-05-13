@@ -854,16 +854,23 @@ Name  | Description
 
 # API roadmap
 
+## Upcoming
+
 The following are our short-term priorities:
 
-1. Adding date filtering for attribute data, insights, averages, and correlations (rather than just paging)
-2. Private beta for OAuth2 full read/write clients with the ability to update attribute data
-3. Public access to OAuth2 clients and the standard authentication flow
+1. Private beta for OAuth2 full read/write clients with the ability to update attribute data
+2. Public access to OAuth2 clients and the standard authentication flow
 
 Once these are complete, our main ongoing priority will be
 extending the list of supported attributes so users can track a wider range of things.
 
 If you'd like to beta-test the full write API, please email us at the address below.
+
+
+## Changelog
+
+* **2015-05-13:** Added date filtering for insights, correlations, averages, and attribute data.
+
 
 # Questions and feedback
 
