@@ -183,7 +183,7 @@ so does the other (*time spent productively*).
 
 **"You are somewhat less likely (25%) to be active when it's warmer in the day."**
 
-In this case the value is 0.25, and this is a negative correlation — when one value (*max temp*) increases,
+In this case the value is -0.25, and this is a negative correlation — when one value (*max temp*) increases,
 the other decreases (*time active*).
 
 ## Insights
@@ -239,7 +239,7 @@ HTML output is provided, however each insight could be assembled from the value 
 }
 ```
 
-Averages are generated weekly and are the basis of our goal system. For attributes that don't warrant a specific related `_goal` attribute, the average is used to create the "end value" of the attribute's progress bar in our dashboard — meaning each day, users are being shown their progress relative to their usual behaviour. We break down averages by day of the week but also record the overall average. As we keep historical data this allows us to plot "rolling averages" showing changes in attribute values.
+Averages are generated weekly and are the basis of our goal system. For attributes that don't warrant a specific related `attribute_name_goal` attribute, the average is used to create the "end value" of the attribute's progress bar in our dashboard — meaning each day, users are being shown their progress relative to their usual behaviour. We break down averages by day of the week but also record the overall average. As we keep historical data this allows us to plot "rolling averages" showing changes in attribute values.
 
 Note: these are actually medians, but we use "average" as it's simpler to explain to users. Please also use this terminology.
 
@@ -261,7 +261,7 @@ curl "api_endpoint_here"
 ```
 
 All endpoints require authentication. We use a simple token-based scheme for now which allows a single token per user.
-Make sure this token is included in your requests by including the Authorization header with every request.
+Make sure this token is included in your requests by including the `Authorization` header with every request.
 
 If you are logged in to Exist in the browser your session-based authentication will also work. This is handy for browsing the API
 (assuming you've set up your browser to accept JSON) but shouldn't be relied on for programmatic access.
@@ -514,7 +514,7 @@ Returns a paged list of all values from an attribute.
 
 Name  | Description
 ------|--------
-`limit` | Number of values to return, starting with today. Optional, max is 100.
+`limit` | Number of values to return per page. Optional, max is 100.
 `page`  | Page index. Optional, default is 1.
 `date_min` | Oldest date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
 `date_max` | Most recent date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
@@ -601,7 +601,7 @@ Returns a paged list of user's insights. Only available for the currently authen
 
 Name  | Description
 ------|--------
-`limit` | Number of values to return, starting with today. Optional, max is 100.
+`limit` | Number of values to return per page, starting with today. Optional, max is 100.
 `page`  | Page index. Optional, default is 1.
 `date_min` | Oldest date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
 `date_max` | Most recent date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
@@ -663,7 +663,7 @@ Returns a paged list of user's insights for a specific attribute. Only available
 
 Name  | Description
 ------|--------
-`limit` | Number of values to return, starting with today. Optional, max is 100.
+`limit` | Number of values to return per page, starting with today. Optional, max is 100.
 `page`  | Page index. Optional, default is 1.
 `date_min` | Oldest date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
 `date_max` | Most recent date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
@@ -779,7 +779,7 @@ Returns a paged list of average values for an attribute.
 
 Name  | Description
 ------|--------
-`limit` | Number of values to return, starting with today. Optional, max is 100.
+`limit` | Number of values to return per page, starting with today. Optional, max is 100.
 `page`  | Page index. Optional, default is 1.
 `date_min` | Oldest date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
 `date_max` | Most recent date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
@@ -846,7 +846,7 @@ Correlations may appear more than once, with different results, as this relation
 
 Name  | Description
 ------|--------
-`limit` | Number of values to return, starting with today. Optional, max is 100.
+`limit` | Number of values to return per page, starting with today. Optional, max is 100.
 `page`  | Page index. Optional, default is 1.
 `date_min` | Oldest date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
 `date_max` | Most recent date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.

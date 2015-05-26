@@ -371,8 +371,11 @@ html, body {
   &>ul, &>ol {
     padding-left: $main-padding + 15px;
     
+    
     li {
+      
       padding-left: 10px;
+      margin-bottom: 8px;
     }
   }
   
@@ -491,7 +494,7 @@ html, body {
   }
 
   code {
-    background-color: rgba(0,0,0,0.05);
+    background-color: #eff0f4;
     padding: 3px;
     border-radius: 3px;
     @extend %break-words;
@@ -583,6 +586,10 @@ html, body {
     }
   }
   
+  h1 + blockquote, h2 + blockquote {
+    padding-top: 0;
+  }
+  
   blockquote  {
     background-color: $code-bg;
     color: #fff;
@@ -600,6 +607,11 @@ html, body {
     @extend %right-col;
 
     &>p { margin: 0; }
+    
+    code {
+      background: $code-bg;
+      color: #fff;
+    }
   }
 
   pre {
