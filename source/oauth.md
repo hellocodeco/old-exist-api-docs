@@ -208,7 +208,7 @@ Name  | Description
 ------|--------
 `name` | The attribute name, eg. `mood_note`
 `active` | `true` or `false` to set this attribute to active or inactive
-`private` | Optional `true` or `false` to change the privacy status of this attribute. Please notify users if you are makeing previously private attributes public and only do this with good reason.
+`private` | Optional `true` or `false` to change the privacy status of this attribute. Please notify users if you are making previously private attributes public and only do this with good reason.
 
 ### Response
 
