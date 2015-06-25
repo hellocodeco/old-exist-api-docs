@@ -24,8 +24,9 @@ For now, the API is private and can only be accessed by users. [Sign up](https:/
 This is draft documentation for the official Exist API, currently also in beta. Both the API and
 the docs are liable to change at any time, though we'll do our best to document changes here and keep the docs in sync with the API itself.
 
-**This beta, read-only API release is intended as a way for developers to make use of their own data.
-Developing and releasing apps which ask other users for their credentials will be frowned upon and tsk-tsked.** However, open source and self-hosted is okay — just be mindful that users should never be asked to trust you with their credentials. 
+**This beta, read-only API release is intended as a way for developers to make use of their own data.** If you'd like to build a client
+that others can use, [get in touch](mailto:hello@exist.io?Subject=Exist OAuth2 API access) with details of your plans.
+We'd love for you to help test the private beta of our OAuth2 write API.
 
 # Getting started
 
