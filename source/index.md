@@ -336,7 +336,8 @@ requests.get("https://exist.io/api/1/users/$self/today/",
     "imperial_units": false,
     "attributes": [
         {
-            "group": "steps", 
+            "group": "activity",
+            "label": "Activity",
             "priority": 1, 
             "items": [
                 {
