@@ -19,14 +19,14 @@ search: true
 # Introduction
 
 Welcome! So you want to take your Exist data and do interesting things with it. Great!
-For now, the API is private and can only be accessed by users. [Sign up](https://exist.io) to give it a try.
+For now, the API can only be accessed by user accounts. [Sign up](https://exist.io) to give it a try.
 
-This is draft documentation for the official Exist API, currently also in beta. Both the API and
+This is draft documentation for the official Exist API. Both the API and
 the docs are liable to change at any time, though we'll do our best to document changes here and keep the docs in sync with the API itself.
 
-**This beta, read-only API release is intended as a way for developers to make use of their own data.** If you'd like to build a client
-that others can use, [get in touch](mailto:hello@exist.io?Subject=Exist OAuth2 API access) with details of your plans.
-We'd love for you to help test the private beta of our OAuth2 write API.
+**Everybody is welcome to use read-only endpoints and token-based authentication, but you must apply for access to an OAuth2 client for the ability to write data.**
+If you'd like to build a client that others can use, [get in touch](mailto:hello@exist.io?Subject=Exist OAuth2 API access) with details of your plans.
+We'd love for you to help us get more into and out of Exist.
 
 # Getting started
 
@@ -41,6 +41,10 @@ an hourly period (if at all) this should be more than adequate.
 Wherever you see the `username` argument in a URL you may substitute the special keyword `$self` to request the authenticated user.
 
 # Object types and terminology
+
+## Clients and services
+
+We use **client** to refer to the OAuth2 client. A client application which writes data to attributes is termed a **service**. 
 
 ## Users
 
@@ -130,7 +134,10 @@ contain an array of `date`/`value` pairs.
 If there is no data for a particular date, this will be reflected with a null value — you should expect to
 receive a list of results containing every single day, rather than days without data being left out.
 
-All datetimes are in UTC unless otherwise specified, and should have the user's timezone applied to create a local TZ-aware datetime. All dates are local to the user. 
+All datetimes are in UTC unless otherwise specified, and should have the user's timezone applied to create a local TZ-aware datetime. All dates are local to the user.
+
+Values are always stored internally and returned in metric units. Each user object contains an `imperial_units` boolean which must be respected when formatting values for the user,
+ie. if this is `true`, a `steps_distance` value must be converted from km to miles.
 
 In situations where multiple attributes are requested, for example the "today" overview, these attributes will be returned **grouped**.
 A group represents attributes that belong together, for example the "activity" group contains the attributes `steps`, `active_min`, etc.
@@ -138,6 +145,8 @@ You can see an example of this in the ['overview' endpoint](#get-current-overvie
 
 Clients should display attributes in these groups when displaying multiple attributes.
 Groups are currently fairly broad and may change as we add more supported attributes.
+
+See [list of supported attributes](#list-of-attributes).
 
 ## Correlations
 
@@ -244,24 +253,57 @@ Averages are generated weekly and are the basis of our goal system. For attribut
 
 Note: these are actually medians, but we use "average" as it's simpler to explain to users. Please also use this terminology.
 
-# Authentication
+# List of attributes
 
-> Include the "Authorization: Token xyz" header in all requests.
+All attributes we currently support. The group an attribute belongs to may change in future, but attribute names should be considered stable.
 
-```python
-import requests
+See [attribute definition](#attributes).
 
-requests.post(url,
-    headers={'Authorization':'Token 96524c5ca126d87eb18ee7eff408ca0e71e94737'})
-```
+Name                | Group        | Value type
+--------------------| ------------ | ----------
+`steps`             | Activity     | Integer
+`steps_active_min`  | Activity     | Integer
+`steps_elevation`   | Activity     | Float (km)
+`floors`            | Activity     | Integer
+`steps_distance`    | Activity     | Integer (km)
+`productive_min`    | Productivity | Duration (minutes as integer)
+`neutral_min`       | Productivity | Duration (minutes as integer)
+`distracting_min`   | Productivity | Duration (minutes as integer)
+`mood`              | Mood         | Integer (between 1 and 5 inclusive)
+`mood_note`         | Mood         | String (max 255 characters)
+`sleep`             | Sleep        | Duration (minutes as integer)
+`time_in_bed`       | Sleep        | Duration (minutes as integer)
+`sleep_start`       | Sleep        | Time of day (minutes from midday as integer)
+`sleep_end`         | Sleep        | Time of day (minutes from midnight as integer)
+`sleep_awakenings`  | Sleep        | Integer
+`events`            | Events       | Integer
+`events_duration`   | Events       | Duration (minutes as integer)
+`weight`            | Health       | Float (kg)
+`checkins`          | Location     | Integer
+`location`          | Location     | String (`"lat,lng"` format where `lat` and `lng` are floats)
+`tracks`            | Media        | Integer
+`instagram_posts`   | Social       | Integer
+`instagram_comments`| Social       | Integer
+`instagram_likes`   | Social       | Integer
+`instagram_username`| Social       | String
+`tweets`            | Twitter      | Integer
+`twitter_mentions`  | Twitter      | Integer
+`twitter_username`  | Twitter      | String
+`weather_temp_max`  | Weather      | Float (degrees Celsius)
+`weather_temp_min`  | Weather      | Float (degrees Celsius)
+`weather_precipitation` | Weather  | Float (inches of water per hour)
+`weather_cloud_cover`   | Weather  | Float (percentage of sky covered, 0.0 to 1.0)
+`weather_wind_speed`    | Weather  | Float (km/hr)
+`weather_summary`       | Weather  | String
+`weather_icon`          | Weather  | String (name of icon best representing weather values)
 
-```shell
-# With curl, you can just pass the correct header with each request
-curl "api_endpoint_here"
-  -H "Authorization: Token 96524c5ca126d87eb18ee7eff408ca0e71e94737"
-```
 
-All endpoints require authentication. We use a simple token-based scheme for now which allows a single token per user.
+# Token-based authentication
+
+
+All endpoints require authentication. We use a simple token-based scheme which allows a single token per user.
+This is available so users can take advantage of their own data — if you're building a client for multiple users,
+you want to apply for [OAuth2 client](#oauth2-authentication) credentials.
 Make sure this token is included in your requests by including the `Authorization` header with every request.
 
 If you are logged in to Exist in the browser your session-based authentication will also work. This is handy for browsing the API
@@ -304,6 +346,160 @@ Key      | Example value
 ### Response
 
 A JSON object containing a token key.
+
+## Signing requests
+
+Include the `Authorization: Token [your_token]` header in all requests.
+
+> Include the "Authorization: Token xyz" header in all requests.
+
+```python
+import requests
+
+requests.post(url,
+    headers={'Authorization':'Token 96524c5ca126d87eb18ee7eff408ca0e71e94737'})
+```
+
+```shell
+# With curl, you can just pass the correct header with each request
+curl "api_endpoint_here"
+  -H "Authorization: Token 96524c5ca126d87eb18ee7eff408ca0e71e94737"
+```
+
+# OAuth2 authentication
+
+**Everybody is welcome to use read-only endpoints and token-based authentication, but you must apply for access to an OAuth2 client for the ability to write data.**
+If you'd like to build a client that others can use, [get in touch](mailto:hello@exist.io?Subject=Exist OAuth2 API access) with details of your plans.
+We'd love for you to help us get more into and out of Exist.
+
+All endpoints require authentication, except those that are part of the OAuth2 authorisation flow.
+
+OAuth2 clients are superior to the simple-token authentication scheme as they can acquire control of attributes and write values for attributes.
+
+## The OAuth2 authorisation flow
+
+> Send your user to the authorisation page at `https://exist.io/oauth2/authorize`
+
+```shell
+# We can't really do this from the shell, but your URL would look like this:
+
+curl https://exist.io/oauth2/authorize?response_type=code&client_id=[your_id]&redirect_uri=[your_uri]&scope=[your_scope]
+```
+
+```python
+# in django, we would do something like this
+return redirect('https://exist.io/oauth2/authorize?response_type=code&client_id=%s&redirect_uri=%s&scope=%s' % (CLIENT_ID, REDIRECT_URI,"read+write"))
+```
+
+> User authorises your client by hitting 'Allow', and
+> Exist returns the user to your `redirect_uri` with `code=[some_code]` in the query string.
+> Exchange your code for an access token: 
+
+```shell
+curl -X POST https://exist.io/oauth2/access_token -d "grant_type=authorization_code" -d "code=[some_code]" -d "client_id=[your_id]" -d "client_secret=[your_secret]" -d "redirect_uri=[your_uri]"
+```
+
+```python
+import requests
+
+url = 'https://exist.io/oauth2/access_token'
+
+response = requests.post(url,
+           {'grant_type':'authorization_code',
+            'code':code,
+            'client_id':CLIENT_ID,
+            'client_secret':CLIENT_SECRET,
+            'redirect_uri':REDIRECT_URI })
+```
+
+> Returns JSON if your request was successful:
+
+```json
+{ "access_token": "122bb8707b6aee134e7746a40feca41868ddd578", "token_type": "Bearer", "expires_in": 31535999, "refresh_token": "ac45027ad037f53b3ce91be272b163f55a4a87e9", "scope": "read write read+write" }
+```
+
+The OAuth2 authorisation flow is vastly simpler than the original OAuth 1.0:
+
+1. Send your user to the "request authorisation" page at `/oauth2/authorize` with these parameters:
+  *  `response_type=code` to request an auth code in return   
+  *  `redirect_uri` with the URI to which Exist returns the user (**must be HTTPS**)
+  *  `scope=read` or `scope=read+write` to request read or read/write permissions
+  *  `client_id` which is your OAuth2 client ID
+2. User authorises your application within the requested scopes (by hitting 'Allow' in the browser)
+3. Exist returns the user to your `redirect_uri` (GET request) with the following:
+  *  `code` parameter upon success
+  *  `error` parameter if the user didn't authorise your client, or any other error with your request
+4. Exchange this code for an access token by POSTing to `/oauth2/access_token` these parameters:
+  *  `grant_type=authorization_code`
+  *  `code` with the code you just received
+  *  `client_id` with your OAuth2 client ID
+  *  `client_secret` with your OAuth2 client secret
+  *  `redirect_uri` with the URI you used earlier
+5. If successful you will receive a JSON object with an `access_token`, `refresh_token`, `token_type`, `scope`, and `expires_in` time in seconds. 
+
+## Refreshing an access token
+
+```shell
+curl -X POST https://exist.io/oauth2/access_token -d "grant_type=refresh_token" -d "refresh_token=[token]" -d "client_id=[your_id]" -d "client_secret=[your_secret]"
+```
+
+```python
+import requests
+
+url = 'https://exist.io/oauth2/access_token'
+
+response = requests.post(url,
+           {'grant_type':'refresh_token',
+            'refresh_token':token,
+            'client_id':CLIENT_ID,
+            'client_secret':CLIENT_SECRET 
+           })
+```
+
+> Returns JSON if your request was successful:
+
+```json
+{ "access_token": "122bb8707b6aee134e7746a40feca41868ddd578", "token_type": "Bearer", "expires_in": 31535999, "refresh_token": "ac45027ad037f53b3ce91be272b163f55a4a87e9", "scope": "read write read+write" }
+```
+
+Tokens expire in a year and can be refreshed at any time, invalidating the original access and refresh tokens.
+
+
+### Request
+
+`POST /oauth2/access_token`
+
+### Parameters
+
+Name  | Description
+------|--------
+`refresh_token` | The refresh token previously received in the auth flow
+`grant_type` | `refresh_token`
+`client_id` | Your OAuth2 client ID
+`client_secret` | Your OAuth2 client secret
+
+### Response
+
+The same as your original access token response, a JSON object with an `access_token`, `refresh_token`, `token_type`, `scope`, and `expires_in` time in seconds. 
+
+## Signing requests
+
+```python
+import requests
+
+requests.post(url,
+    headers={'Authorization':'Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737'})
+```
+
+```shell
+# With curl, you can just pass the correct header with each request
+curl "api_endpoint_here"
+  -H "Authorization: Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737"
+```
+
+Sign all authenticated requests by adding the Authorization header, `Authorization: Bearer [access_token]`. Note that this differs from the simple token-based authentication by using `Bearer`, *not* `Token`.
+
+
 
 # Users
 
@@ -854,23 +1050,247 @@ Name  | Description
 `date_max` | Most recent date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
 `latest` | Set this to `true` to return only the most recently generated batch of correlations. Use this on its own without `date_min` and `date_max`.
 
+# Attribute ownership
+
+**This section only applies for OAuth2 clients.**
+
+Only one client service can have ownership of any user attribute at any given time. Services must acquire ownership of an attribute to be able to write data for this attribute, and can release ownership if needed, for example if the user closes their account with this service or chooses to turn off certain attributes.
+
+## Acquire attributes
+
+```shell
+curl https://exist.io/api/1/attributes/acquire/ -H "Content-Type: application/json" -H "Authorization: Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737" -X POST -d '[{"name":"mood", "active":true}, {"name":"mood_note", "active":true}]'
+```
+
+```python
+import requests, json
+
+url = 'https://exist.io/api/1/attributes/acquire/'
+
+attributes = [{"name":"mood", "active":True}, {"name":"mood_note", "active":True}]
+
+response = requests.post(url, headers={'Authorization':'Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737'},
+    data=json.dumps(attributes))
+```
+
+> Returns JSON and a status code of `202 Accepted` if some attributes failed (just for example, the above is correct)
+
+```json
+{ "success": [ 
+    { "name":"mood_note",
+      "active":"true"
+    }
+  ],
+  "failed": [
+    { "name":"mood",
+      "error_code":"missing_field",
+      "error":"Object at index 0 missing field(s) 'active'"
+    }
+  ]
+}
+```
+
+Allows a service to update attribute data for these attributes. Users do not have to approve this (mostly because this would be cumbersome) so please explain/confirm this behaviour with users within your own application.
+
+### Request
+
+`POST /api/1/attributes/acquire/`
+
+### Parameters
+
+Clients must send a JSON-encoded array of objects, where each object contains a `name` string and an `active` boolean. Setting `active` to `false` indicates you'd like to deactivate this attribute without giving up ownership.
+
+Name  | Description
+------|--------
+`name` | The attribute name, eg. `mood_note`
+`active` | `true` or `false` to set this attribute to active or inactive
+`private` | Optional `true` or `false` to change the privacy status of this attribute. Please notify users if you are making previously private attributes public and only do this with good reason.
+
+### Response
+
+Returns `200 OK` if all attributes were processed successfully, or `202 Accepted` if some attributes failed. The content is a JSON object containing `success` and `failed` arrays, where each item in the array is an attribute sent in the prior request. Failed attributes get `error` and `error_code` fields added. 
+
+## Release attributes
+
+```shell
+curl https://exist.io/api/1/attributes/release/ -H "Content-Type: application/json" -H "Authorization: Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737" -X POST -d '[{"name":"mood"}, {"name":"mood_note"}]'
+```
+
+```python
+import requests, json
+
+url = 'https://exist.io/api/1/attributes/release/'
+
+attributes = [{"name":"mood"}, {"name":"mood_note"}]
+
+response = requests.post(url, headers={'Authorization':'Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737'}, 
+    data=json.dumps(attributes))
+```
+
+> Returns JSON and a status code of `202 Accepted` if some attributes failed (just for example, the above is correct)
+
+```json
+{ "success": [ 
+    { "name":"mood_note" }
+  ],
+  "failed": [
+    { "name":"mood",
+      "error_code":"unauthorised",
+      "error":"Attribute 'mood' does not belong to this service"
+    }
+  ]
+}
+```
+
+Do this to release your ownership of any attributes. The attributes' ownership will pass to another service, if the user has another supplied that has indicated it can handle this attribute, or otherwise become inactive.
+
+### Request
+
+`POST /api/1/attributes/release/`
+
+### Parameters
+
+Clients must send a JSON-encoded array of objects, where each object contains a `name` string. The objects may seem superfluous but this is to be consistent with the `acquire` endpoint.
+
+Name  | Description
+------|--------
+`name` | The attribute name, eg. `mood_note`
+
+### Response
+
+Returns `200 OK` if all attributes were processed successfully, or `202 Accepted` if some attributes failed. The content is a JSON object containing `success` and `failed` arrays, where each item in the array is an attribute sent in the prior request. Failed attributes get `error` and `error_code` fields added. 
+
+
+## List owned attributes
+
+```shell
+curl https://exist.io/api/1/attributes/owned/ -H "Authorization: Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737"
+```
+
+```python
+import requests
+
+url = 'https://exist.io/api/1/attributes/owned/'
+
+response = requests.get(url, headers={'Authorization':'Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737'})
+```
+
+> Returns a JSON array of attributes for the authenticated user and owned by this service:
+
+```json
+[
+    {
+        "attribute": "steps", 
+        "label": "Steps", 
+        "value": null, 
+        "service": "fitbit", 
+        "priority": 1, 
+        "private": false, 
+        "value_type": 0, 
+        "value_type_description": "Integer"
+    }, 
+    {
+        "attribute": "steps_active_min", 
+        "label": "Active minutes", 
+        "value": null, 
+        "service": "fitbit", 
+        "priority": 2, 
+        "private": false, 
+        "value_type": 0, 
+        "value_type_description": "Integer"
+    }
+]
+```
+
+This is a convenience endpoint to list all attributes for the authenticated user currently owned by this service.
+
+### Request
+
+`GET /api/1/attributes/owned/`
+
+# Updating attributes 
+
+```shell
+curl https://exist.io/api/1/attributes/update/ -H "Content-Type: application/json" -H "Authorization: Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737" -X POST -d '[{"name":"mood", "date":"2015-05-20", "value":5}, {"name":"mood_note", "date":"2015-05-20", "value":"Great day playing with the Exist API"}]'
+```
+
+```python
+python
+import requests, json
+
+url = 'https://exist.io/api/1/attributes/update/'
+
+attributes = [{"name":"mood", "date":"2015-05-20", "value":5}, {"name":"mood_note", "date":"2015-05-20", "value":"Great day playing with the Exist API"}]
+
+response = requests.post(url, headers={'Authorization':'Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737'},
+    data=json.dumps(attributes))
+```
+
+> Returns a JSON object containing successful and failed updates:
+
+```json
+{ "success": [ 
+    { "name":"mood_note",
+      "date":"2015-05-20",
+      "value":"Great day playing with the Exist API"
+    }
+  ],
+  "failed": [
+    { "name":"mood",
+      "date":"2015-05-20",  
+      "error_code":"missing_field",
+      "error":"Object at index 0 missing field(s) 'value'"
+    }
+  ]
+}
+```
+
+**This section only applies for OAuth2 clients.**
+
+This endpoint allows services to update attribute data for the authenticated user. Data is stored on a single day granularity, so each update contains `name`, `date`, and `value`. Make sure the date is local to the user — though you do not have to worry about timezones directly, if you are using your local time instead of the user's local time, you may be a day ahead or behind!
+
+Valid values are described by the attribute's `value_type` and `value_type_description` fields. However, values are only validated broadly by type and so care must be taken to send correct data. For example, `mood` is of type `integer` so any integer value would be accepted, but *actual* valid values are only within 1-5. 
+
+### Request
+
+`POST /api/1/attributes/update/`
+
+### Parameters
+
+Clients must send a JSON-encoded array of objects containing a `name`, `date`, and `value`.
+
+Name  | Description
+------|--------
+`name` | The attribute name, eg. `mood_note`
+`date` | String of format `YYYY-mm-dd`
+`value` | A valid value for this attribute type: string, integer, or float
+
+
+### Response
+
+Returns `200 OK` if all attributes were processed successfully, or `202 Accepted` if some attributes failed. The content is a JSON object containing `success` and `failed` arrays, where each item in the array is an attribute sent in the prior request. Failed attributes get `error` and `error_code` fields added. 
+
+
+
+
 # API roadmap
 
 ## Upcoming
 
 The following are our short-term priorities:
 
-1. Private beta for OAuth2 full read/write clients with the ability to update attribute data
+1. Private beta for OAuth2 full read/write clients with the ability to update attribute data (underway)
 2. Public access to OAuth2 clients and the standard authentication flow
 
 Once these are complete, our main ongoing priority will be
 extending the list of supported attributes so users can track a wider range of things.
 
-If you'd like to beta-test the full write API, please email us at the address below.
+If you'd like to use the full write API, please [email us](mailto:hello@exist.io).
 
 
 ## Changelog
 
+* **2015-07-09:** Introduced attribute validation and started validating `mood` values
 * **2015-05-13:** Added date filtering for insights, correlations, averages, and attribute data.
 
 
