@@ -298,7 +298,7 @@ Name                | Group        | Value type
 `weather_icon`          | Weather  | String (name of icon best representing weather values)
 
 
-# Token-based authentication
+# Simple token authentication
 
 
 All endpoints require authentication. We use a simple token-based scheme which allows a single token per user.
