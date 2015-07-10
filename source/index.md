@@ -18,19 +18,16 @@ search: true
 
 # Introduction
 
-Welcome! So you want to take your Exist data and do interesting things with it. Great!
+
+Hello! So you want to take your Exist data and do interesting things with it. Great!
 For now, the API can only be accessed by user accounts. [Sign up](https://exist.io) to give it a try.
 
 This is draft documentation for the official Exist API. Both the API and
 the docs are liable to change at any time, though we'll do our best to document changes here and keep the docs in sync with the API itself.
 
-**Everybody is welcome to use read-only endpoints and token-based authentication, but you must apply for access to an OAuth2 client for the ability to write data.**
-If you'd like to build a client that others can use, [get in touch](mailto:hello@exist.io?Subject=Exist OAuth2 API access) with details of your plans.
-We'd love for you to help us get more into and out of Exist.
+## Getting started
 
-# Getting started
-
-The API lives at `https://exist.io/api/`. All requests must use HTTPS.
+The API lives at `https://exist.io/api/1/`. All requests must use HTTPS.
 
 POST bodies can be sent as `application/json`, `application/x-www-form-urlencoded`, or `multipart/form-data`.
 However the API will only return JSON. XML is so last decade.
@@ -40,11 +37,26 @@ an hourly period (if at all) this should be more than adequate.
 
 Wherever you see the `username` argument in a URL you may substitute the special keyword `$self` to request the authenticated user.
 
+There are two authentication methods: simple tokens, and OAuth2 clients. [Read the authentication overview](#authentication-overview) to see which one you need.
+
+To get stuck in and retrieve some personal data, you should start by [requesting a simple token](#requesting-a-token), then [get today's overview](#get-current-overview-for-user).
+
+## Important values
+
+Name | Value
+-----------------| ------
+**API base URL**     | `https://exist.io/api/1/`
+**OAuth2 base URL**  | `https://exist.io/oauth2/`
+**Response type**| `application/json`
+**Rate-limiting**| 300 requests/hr per user token
+**POSTing data** | `application/x-www-form-urlencoded` (the usual) or send the body as `application/json`
+**OAuth2 auth header** | `Authorization: Bearer [tokenxyz]`
+**Simple token auth header** | `Authorization: Token [tokenabc]`
+**Getting a simple token** | `POST  'username' and 'password' to https://exist.io/api/1/auth/simple-token/`
+**Testing your token** | `GET https://exist.io/api/1/users/$self/today/`
+**See some JSON in your browser** | [https://exist.io/api/1/users/$self/today/](https://exist.io/api/1/users/$self/today/)
+
 # Object types and terminology
-
-## Clients and services
-
-We use **client** to refer to the OAuth2 client. A client application which writes data to attributes is termed a **service**. 
 
 ## Users
 
@@ -253,7 +265,12 @@ Averages are generated weekly and are the basis of our goal system. For attribut
 
 Note: these are actually medians, but we use "average" as it's simpler to explain to users. Please also use this terminology.
 
-# List of attributes
+## Clients and services
+
+We use **client** to refer an application with OAuth2 client credentials. A client which writes data to attributes is termed a **service**. 
+
+
+## List of attributes
 
 All attributes we currently support. The group an attribute belongs to may change in future, but attribute names should be considered stable.
 
@@ -298,12 +315,23 @@ Name                | Group        | Value type
 `weather_icon`          | Weather  | String (name of icon best representing weather values)
 
 
+# Authentication overview
+
+There are two authentication methods — simple tokens, and OAuth2 clients. So which one do you need?
+
+**Simple token authentication** is read-only and exists as a basic means for users to access their own data from Exist. This method is available to everyone
+by exchanging a username and password for a token that doesn't expire.
+
+**OAuth2 clients** are superior to simple-token authentication as they can acquire control of attributes and write values for attributes.
+One client application can create and use access tokens for many users. One user may have many clients authorised to access their Exist account, each with a separate token that can be revoked.
+
+OAuth2 clients are whitelisted. You must apply for access to an OAuth2 client for the ability to write data.
+If you'd like to build a client that others can use, [get in touch](mailto:hello@exist.io?Subject=Exist OAuth2 API access) with details of your plans.
+We'd love for you to help us get more into and out of Exist.
+
 # Simple token authentication
 
-
 All endpoints require authentication. We use a simple token-based scheme which allows a single token per user.
-This is available so users can take advantage of their own data — if you're building a client for multiple users,
-you want to apply for [OAuth2 client](#oauth2-authentication) credentials.
 Make sure this token is included in your requests by including the `Authorization` header with every request.
 
 If you are logged in to Exist in the browser your session-based authentication will also work. This is handy for browsing the API
@@ -368,15 +396,13 @@ curl "api_endpoint_here"
 
 # OAuth2 authentication
 
-**Everybody is welcome to use read-only endpoints and token-based authentication, but you must apply for access to an OAuth2 client for the ability to write data.**
-If you'd like to build a client that others can use, [get in touch](mailto:hello@exist.io?Subject=Exist OAuth2 API access) with details of your plans.
-We'd love for you to help us get more into and out of Exist.
-
 All endpoints require authentication, except those that are part of the OAuth2 authorisation flow.
+Make sure your access token is included in your requests by including the `Authorization: Bearer` header with every request.
 
-OAuth2 clients are superior to the simple-token authentication scheme as they can acquire control of attributes and write values for attributes.
+You may mix and match OAuth2 authentication with simple token or even session-based authentication as you test the API. API endpoints will respond with JSON within your browser
+if you are logged in to the site.
 
-## The OAuth2 authorisation flow
+## Authorisation flow
 
 > Send your user to the authorisation page at `https://exist.io/oauth2/authorize`
 
@@ -793,7 +819,7 @@ Returns a paged list of user's insights. Only available for the currently authen
 
 ### Request
 
-`GET /api/1/users/:username/insights/`
+`GET /api/1/users/:username/insights/attribute/:attribute/`
 
 ### Parameters
 
@@ -1054,7 +1080,7 @@ Name  | Description
 
 **This section only applies for OAuth2 clients.**
 
-Only one client service can have ownership of any user attribute at any given time. Services must acquire ownership of an attribute to be able to write data for this attribute, and can release ownership if needed, for example if the user closes their account with this service or chooses to turn off certain attributes.
+Only one service may have ownership of any user attribute at any given time. Services must acquire ownership of an attribute to be able to write data for this attribute, and can release ownership if needed, for example if the user closes their account with this service or chooses to turn off certain attributes.
 
 ## Acquire attributes
 
@@ -1249,7 +1275,9 @@ response = requests.post(url, headers={'Authorization':'Bearer 96524c5ca126d87eb
 
 This endpoint allows services to update attribute data for the authenticated user. Data is stored on a single day granularity, so each update contains `name`, `date`, and `value`. Make sure the date is local to the user — though you do not have to worry about timezones directly, if you are using your local time instead of the user's local time, you may be a day ahead or behind!
 
-Valid values are described by the attribute's `value_type` and `value_type_description` fields. However, values are only validated broadly by type and so care must be taken to send correct data. For example, `mood` is of type `integer` so any integer value would be accepted, but *actual* valid values are only within 1-5. 
+Valid values are described by the attribute's `value_type` and `value_type_description` fields. However, values are only validated broadly by type and so care must be taken to send correct data. For example, `mood` is of type `integer` so any integer value would be accepted, but *actual* valid values are only within 1-5.
+
+Check value types for each attribute in [list of supported attributes](#list-of-attributes).
 
 ### Request
 
