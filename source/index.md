@@ -20,7 +20,7 @@ search: true
 
 
 Hello! So you want to take your Exist data and do interesting things with it. Great!
-For now, the API can only be accessed by user accounts. [Sign up](https://exist.io) to give it a try.
+First things first, though: the API can only be accessed by user accounts. [Sign up](https://exist.io) if you don't yet have an account.
 
 This is draft documentation for the official Exist API. Both the API and
 the docs are liable to change at any time, though we'll do our best to document changes here and keep the docs in sync with the API itself.
@@ -37,9 +37,11 @@ an hourly period (if at all) this should be more than adequate.
 
 Wherever you see the `username` argument in a URL you may substitute the special keyword `$self` to request the authenticated user.
 
-There are two authentication methods: simple tokens, and OAuth2 clients. [Read the authentication overview](#authentication-overview) to see which one you need.
+OAuth2 is the main means of authorising requests to the API, but if you're building a personal read-only client you might like to use simple token auth.
+[Read the authentication overview](#authentication-overview) to see which one you need.
 
-To get stuck in and retrieve some personal data, you should start by [requesting a simple token](#requesting-a-token), then [get today's overview](#get-current-overview-for-user).
+To get stuck in and retrieve some personal data, you should start by [creating a new client app](https://exist.io/account/apps/),
+then [get today's overview](#get-current-overview-for-user).
 
 ## Important values
 
@@ -320,14 +322,13 @@ Name                | Group        | Value type
 There are two authentication methods — simple tokens, and OAuth2 clients. So which one do you need?
 
 **Simple token authentication** is read-only and exists as a basic means for users to access their own data from Exist. This method is available to everyone
-by exchanging a username and password for a token that doesn't expire.
+by exchanging a username and password for a token that doesn't expire. This is only recommended for quickly building a single-user, read-only client,
+and may be deprecated in future.
 
 **OAuth2 clients** are superior to simple-token authentication as they can acquire control of attributes and write values for attributes.
 One client application can create and use access tokens for many users. One user may have many clients authorised to access their Exist account, each with a separate token that can be revoked.
 
-OAuth2 clients are whitelisted. You must apply for access to an OAuth2 client for the ability to write data.
-If you'd like to build a client that others can use, [get in touch](mailto:hello@exist.io?Subject=Exist OAuth2 API access) with details of your plans.
-We'd love for you to help us get more into and out of Exist.
+OAuth2 clients are now available to all users. You can create one from your [app management page](https://exist.io/account/apps/) within your Exist account.
 
 # Simple token authentication
 
@@ -771,9 +772,7 @@ requests.get("https://exist.io/api/1/users/$self/insights/",
             "created": "2015-05-09T01:00:02Z", 
             "target_date": "2015-05-08", 
             "html": "<div class=\"secondary\">Friday night: Shortest sleep for 3 days</div>...", 
-            "value": "303", 
-            "value2": "3 days", 
-            "comment": null, 
+            "text": "Friday night: Shortest sleep for 3 days\r\n", 
             "type": {
                 "name": "sleep_worst_since_x", 
                 "period": 1, 
@@ -792,10 +791,8 @@ requests.get("https://exist.io/api/1/users/$self/insights/",
         {
             "created": "2015-05-08T21:00:03Z", 
             "target_date": null, 
-            "html": "<div class=\"number\">09:38</div>...", 
-            "value": "578", 
-            "value2": "65 min earlier", 
-            "comment": null, 
+            "html": "<div class=\"number\">09:38</div>...",
+            "text": "09:38 average time asleep...",
             "type": {
                 "name": "sleep_end_average_week", 
                 "period": 7, 
@@ -819,7 +816,7 @@ Returns a paged list of user's insights. Only available for the currently authen
 
 ### Request
 
-`GET /api/1/users/:username/insights/attribute/:attribute/`
+`GET /api/1/users/:username/insights/`
 
 ### Parameters
 
@@ -855,9 +852,7 @@ requests.get("https://exist.io/api/1/users/$self/insights/attribute/sleep/",
             "created": "2015-05-09T01:00:02Z", 
             "target_date": "2015-05-08", 
             "html": "<div class=\"secondary\">Friday night: Shortest sleep for 3 days</div>...", 
-            "value": "303", 
-            "value2": "3 days", 
-            "comment": null, 
+            "text": "Friday night: Shortest sleep for 3 days...",
             "type": {
                 "name": "sleep_worst_since_x", 
                 "period": 1, 
@@ -881,7 +876,7 @@ Returns a paged list of user's insights for a specific attribute. Only available
 
 ### Request
 
-`GET /api/1/users/:username/insights/`
+`GET /api/1/users/:username/insights/attribute/:attribute/`
 
 ### Parameters
 
@@ -1305,19 +1300,13 @@ Returns `200 OK` if all attributes were processed successfully, or `202 Accepted
 
 ## Upcoming
 
-The following are our short-term priorities:
-
-1. Private beta for OAuth2 full read/write clients with the ability to update attribute data (underway)
-2. Public access to OAuth2 clients and the standard authentication flow
-
-Once these are complete, our main ongoing priority will be
-extending the list of supported attributes so users can track a wider range of things.
-
-If you'd like to use the full write API, please [email us](mailto:hello@exist.io).
-
+Our main ongoing priority is extending the list of supported attributes so users can track a wider range of things.
+Please let us know if you'd like to see a certain attribute or data type supported.
 
 ## Changelog
 
+* **2015-12-01:** OAuth2 clients are available for all users
+* **2015-10-05:** Removed separate value fields in insights, added rendered text field
 * **2015-07-09:** Introduced attribute validation and started validating `mood` values
 * **2015-05-13:** Added date filtering for insights, correlations, averages, and attribute data.
 
