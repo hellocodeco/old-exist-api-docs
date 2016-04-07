@@ -21,9 +21,10 @@ search: true
 
 Hello! So you want to take your Exist data and do interesting things with it. Great!
 First things first, though: the API can only be accessed by user accounts. [Sign up](https://exist.io) if you don't yet have an account.
+Once you do, great! You can access all features of the API including writing data to attributes.
 
-This is draft documentation for the official Exist API. Both the API and
-the docs are liable to change at any time, though we'll do our best to document changes here and keep the docs in sync with the API itself.
+If you're building something on the Exist API we encourage you to [sign up to the API mailing list](https://confirmsubscription.com/h/t/2E3A4057D66FD499)
+so we can update you on progress (typically we only email a few times a year).
 
 ## Getting started
 
@@ -285,9 +286,19 @@ Name                | Group        | Value type
 `steps_elevation`   | Activity     | Float (km)
 `floors`            | Activity     | Integer
 `steps_distance`    | Activity     | Integer (km)
+`cycle_min`         | Activity     | Duration (minutes as integer)
+`cycle_distance`    | Activity     | Integer (km)
 `productive_min`    | Productivity | Duration (minutes as integer)
 `neutral_min`       | Productivity | Duration (minutes as integer)
 `distracting_min`   | Productivity | Duration (minutes as integer)
+`commits`           | Productivity | Integer
+`tasks_completed`   | Productivity | Integer
+`words_written`     | Productivity | Integer
+`emails_sent`       | Productivity | Integer
+`emails_received`   | Productivity | Integer
+`coffees`           | Food and drink | Integer
+`alcoholic_drinks`  | Food and drink | Integer
+`money_spent`       | Finance      | Float (user's local currency unit)
 `mood`              | Mood         | Integer (between 1 and 5 inclusive)
 `mood_note`         | Mood         | String (max 255 characters)
 `sleep`             | Sleep        | Duration (minutes as integer)
@@ -298,9 +309,12 @@ Name                | Group        | Value type
 `events`            | Events       | Integer
 `events_duration`   | Events       | Duration (minutes as integer)
 `weight`            | Health       | Float (kg)
+`body_fat`          | Health       | Float (percentage, 0.0 to 1.0)
+`meditation_min`    | Health       | Duration (minutes as integer)
 `checkins`          | Location     | Integer
 `location`          | Location     | String (`"lat,lng"` format where `lat` and `lng` are floats)
 `tracks`            | Media        | Integer
+`articles_read`     | Media        | Integer
 `instagram_posts`   | Social       | Integer
 `instagram_comments`| Social       | Integer
 `instagram_likes`   | Social       | Integer
@@ -315,6 +329,8 @@ Name                | Group        | Value type
 `weather_wind_speed`    | Weather  | Float (km/hr)
 `weather_summary`       | Weather  | String
 `weather_icon`          | Weather  | String (name of icon best representing weather values)
+`sunrise`               | Weather  | Time of day (minutes from midnight as integer)
+`sunset`                | Weather  | Time of day (minutes from midday as integer)
 
 
 # Authentication overview
