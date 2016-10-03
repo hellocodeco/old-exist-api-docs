@@ -277,6 +277,8 @@ We use **client** to refer an application with OAuth2 client credentials. A clie
 
 All attributes we currently support. The group an attribute belongs to may change in future, but attribute names should be considered stable.
 
+Remember all data should be sent, and is stored and returned, in metric units. Imperial conversion should occur when rendering as required.
+
 See [attribute definition](#attributes).
 
 Name                | Group        | Value type
@@ -288,6 +290,9 @@ Name                | Group        | Value type
 `steps_distance`    | Activity     | Integer (km)
 `cycle_min`         | Activity     | Duration (minutes as integer)
 `cycle_distance`    | Activity     | Integer (km)
+`workouts`          | Workouts     | Integer
+`workouts_min`      | Workouts     | Duration (minutes as integer)
+`workouts_distance` | Workouts     | Float (km)
 `productive_min`    | Productivity | Duration (minutes as integer)
 `neutral_min`       | Productivity | Duration (minutes as integer)
 `distracting_min`   | Productivity | Duration (minutes as integer)
@@ -298,6 +303,16 @@ Name                | Group        | Value type
 `emails_received`   | Productivity | Integer
 `coffees`           | Food and drink | Integer
 `alcoholic_drinks`  | Food and drink | Integer
+`energy`            | Food and drink | Float (kJ)
+`water`             | Food and drink | Integer (ml)
+`carbohydrates`     | Food and drink | Float (g)
+`fat`               | Food and drink | Float (g)
+`fibre`             | Food and drink | Float (g)
+`protein`           | Food and drink | Float (g)
+`sodium`            | Food and drink | Float (mg)
+`cholesterol`       | Food and drink | Float (mg)
+`sugar`             | Food and drink | Float (mg)
+`caffeine`          | Food and drink | Float (mg)
 `money_spent`       | Finance      | Float (user's local currency unit)
 `mood`              | Mood         | Integer (between 1 and 5 inclusive)
 `mood_note`         | Mood         | String (max 255 characters)
@@ -310,6 +325,7 @@ Name                | Group        | Value type
 `events_duration`   | Events       | Duration (minutes as integer)
 `weight`            | Health       | Float (kg)
 `body_fat`          | Health       | Float (percentage, 0.0 to 1.0)
+`heartrate`         | Health       | Integer
 `meditation_min`    | Health       | Duration (minutes as integer)
 `checkins`          | Location     | Integer
 `location`          | Location     | String (`"lat,lng"` format where `lat` and `lng` are floats)
