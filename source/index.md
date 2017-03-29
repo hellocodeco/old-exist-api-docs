@@ -287,9 +287,9 @@ Name                | Group        | Value type
 `steps_active_min`  | Activity     | Integer
 `steps_elevation`   | Activity     | Float (km)
 `floors`            | Activity     | Integer
-`steps_distance`    | Activity     | Integer (km)
+`steps_distance`    | Activity     | Float (km)
 `cycle_min`         | Activity     | Duration (minutes as integer)
-`cycle_distance`    | Activity     | Integer (km)
+`cycle_distance`    | Activity     | Float (km)
 `workouts`          | Workouts     | Integer
 `workouts_min`      | Workouts     | Duration (minutes as integer)
 `workouts_distance` | Workouts     | Float (km)
@@ -636,7 +636,7 @@ this will return a user stub.
 
 # Attributes
 
-## Get all attributes
+## Get multiple attributes
 
 ```shell
 curl -H "Authorization: Token [YOUR_TOKEN]" https://exist.io/api/1/users/\$self/attributes/
@@ -649,7 +649,7 @@ requests.get("https://exist.io/api/1/users/$self/attributes/",
     headers={'Authorization':'Token [YOUR_TOKEN]'})
 ```
 
-> Returns a list of attribute objects each with a list of values:
+> Returns a list of attribute objects each with a list of values, by default all attributes:
 
 ```json
 [
@@ -701,7 +701,9 @@ requests.get("https://exist.io/api/1/users/$self/attributes/",
 ]
 ```
 
-Return all of the user's attributes, with the last week's values by default. Currently this method is only allowed for the authenticated user.
+Return the user's attributes, all attributes with the last week's values by default. Currently this method is only allowed for the authenticated user.
+
+If you need to get a specific date range or combination of attribute values, you may combine the optional parameters to do so.
 
 ### Request
 
@@ -712,6 +714,9 @@ Return all of the user's attributes, with the last week's values by default. Cur
 Name  | Description
 ------|--------
 `limit` | Number of values to return, starting with today. Optional, max is 31.
+`attributes` | Optional comma-separated list of attributes, eg. `mood,mood_note`
+`date_min`   | Optional date specifying the oldest value that can be returned, in format `YYYY-mm-dd`.
+`date_max`   | Optional date specifying the newest value that can be returned, in format `YYYY-mm-dd`.
 
 ## Get a specific attribute
 
@@ -1263,6 +1268,17 @@ This is a convenience endpoint to list all attributes for the authenticated user
 
 # Updating attributes 
 
+## Overview
+
+If you jumped straight here looking for how to send data for your own attributes, here's a recap of the steps you may have missed:
+
+1. Make sure you have an [OAuth2 client](#authentication-overview) set up
+2. Make sure you've listed all attributes you'd like to be able to write to (set this from your [app management page](https://exist.io/account/apps/))
+3. Make sure you have [acquired ownership](#attribute-ownership) of the attribute before updating
+4. Now you can update.
+
+## Updating attribute values
+
 ```shell
 curl https://exist.io/api/1/attributes/update/ -H "Content-Type: application/json" -H "Authorization: Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737" -X POST -d '[{"name":"mood", "date":"2015-05-20", "value":5}, {"name":"mood_note", "date":"2015-05-20", "value":"Great day playing with the Exist API"}]'
 ```
@@ -1302,7 +1318,8 @@ response = requests.post(url, headers={'Authorization':'Bearer 96524c5ca126d87eb
 
 This endpoint allows services to update attribute data for the authenticated user. Data is stored on a single day granularity, so each update contains `name`, `date`, and `value`. Make sure the date is local to the user — though you do not have to worry about timezones directly, if you are using your local time instead of the user's local time, you may be a day ahead or behind!
 
-Valid values are described by the attribute's `value_type` and `value_type_description` fields. However, values are only validated broadly by type and so care must be taken to send correct data. For example, `mood` is of type `integer` so any integer value would be accepted, but *actual* valid values are only within 1-5.
+Valid values are described by the attribute's `value_type` and `value_type_description` fields. However, values are only validated broadly by type and so care must be taken to send correct data. Do not rely on Exist to validate your values beyond
+enforcing the correct type.
 
 Check value types for each attribute in [list of supported attributes](#list-of-attributes).
 
