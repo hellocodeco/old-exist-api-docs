@@ -281,72 +281,127 @@ Remember all data should be sent, and is stored and returned, in metric units. I
 
 See [attribute definition](#attributes).
 
-Name                | Group        | Value type
---------------------| ------------ | ----------
-`steps`             | Activity     | Integer
-`steps_active_min`  | Activity     | Integer
-`steps_elevation`   | Activity     | Float (km)
-`floors`            | Activity     | Integer
-`steps_distance`    | Activity     | Float (km)
-`cycle_min`         | Activity     | Duration (minutes as integer)
-`cycle_distance`    | Activity     | Float (km)
-`workouts`          | Workouts     | Integer
-`workouts_min`      | Workouts     | Duration (minutes as integer)
-`workouts_distance` | Workouts     | Float (km)
-`productive_min`    | Productivity | Duration (minutes as integer)
-`neutral_min`       | Productivity | Duration (minutes as integer)
-`distracting_min`   | Productivity | Duration (minutes as integer)
-`commits`           | Productivity | Integer
-`tasks_completed`   | Productivity | Integer
-`words_written`     | Productivity | Integer
-`emails_sent`       | Productivity | Integer
-`emails_received`   | Productivity | Integer
-`coffees`           | Food and drink | Integer
-`alcoholic_drinks`  | Food and drink | Integer
-`energy`            | Food and drink | Float (kJ)
-`water`             | Food and drink | Integer (ml)
-`carbohydrates`     | Food and drink | Float (g)
-`fat`               | Food and drink | Float (g)
-`fibre`             | Food and drink | Float (g)
-`protein`           | Food and drink | Float (g)
-`sodium`            | Food and drink | Float (mg)
-`cholesterol`       | Food and drink | Float (mg)
-`sugar`             | Food and drink | Float (mg)
-`caffeine`          | Food and drink | Float (mg)
-`money_spent`       | Finance      | Float (user's local currency unit)
-`mood`              | Mood         | Integer (between 1 and 5 inclusive)
-`mood_note`         | Mood         | String (max 255 characters)
-`sleep`             | Sleep        | Duration (minutes as integer)
-`time_in_bed`       | Sleep        | Duration (minutes as integer)
-`sleep_start`       | Sleep        | Time of day (minutes from midday as integer)
-`sleep_end`         | Sleep        | Time of day (minutes from midnight as integer)
-`sleep_awakenings`  | Sleep        | Integer
-`events`            | Events       | Integer
-`events_duration`   | Events       | Duration (minutes as integer)
-`weight`            | Health       | Float (kg)
-`body_fat`          | Health       | Float (percentage, 0.0 to 1.0)
-`heartrate`         | Health       | Integer
-`meditation_min`    | Health       | Duration (minutes as integer)
-`checkins`          | Location     | Integer
-`location`          | Location     | String (`"lat,lng"` format where `lat` and `lng` are floats)
-`tracks`            | Media        | Integer
-`articles_read`     | Media        | Integer
-`instagram_posts`   | Social       | Integer
-`instagram_comments`| Social       | Integer
-`instagram_likes`   | Social       | Integer
-`instagram_username`| Social       | String
-`tweets`            | Twitter      | Integer
-`twitter_mentions`  | Twitter      | Integer
-`twitter_username`  | Twitter      | String
-`weather_temp_max`  | Weather      | Float (degrees Celsius)
-`weather_temp_min`  | Weather      | Float (degrees Celsius)
-`weather_precipitation` | Weather  | Float (inches of water per hour)
-`weather_cloud_cover`   | Weather  | Float (percentage of sky covered, 0.0 to 1.0)
-`weather_wind_speed`    | Weather  | Float (km/hr)
-`weather_summary`       | Weather  | String
-`weather_icon`          | Weather  | String (name of icon best representing weather values)
-`sunrise`               | Weather  | Time of day (minutes from midnight as integer)
-`sunset`                | Weather  | Time of day (minutes from midday as integer)
+Name                | Group        | Value type description         | Value type 
+--------------------| ------------ | -------------------------------|-----------
+`steps`             | Activity     | Integer                        | `0`
+`steps_active_min`  | Activity     | Period (minutes as integer)    | `3`
+`steps_elevation`   | Activity     | Float (km)                     | `1`
+`floors`            | Activity     | Integer                        | `0`
+`steps_distance`    | Activity     | Float (km)                     | `1`
+`cycle_min`         | Activity     | Period (minutes as integer)    | `3`
+`cycle_distance`    | Activity     | Float (km)                     | `1`
+`workouts`          | Workouts     | Integer                        | `0`
+`workouts_min`      | Workouts     | Period (minutes as integer)    | `3`
+`workouts_distance` | Workouts     | Float (km)                     | `1`
+`productive_min`    | Productivity | Period (minutes as integer)    | `3`
+`neutral_min`       | Productivity | Period (minutes as integer)    | `3`
+`distracting_min`   | Productivity | Period (minutes as integer)    | `3`
+`commits`           | Productivity | Integer                        | `0`
+`tasks_completed`   | Productivity | Integer                        | `0`
+`words_written`     | Productivity | Integer                        | `0`
+`emails_sent`       | Productivity | Integer                        | `0`
+`emails_received`   | Productivity | Integer                        | `0`
+`custom`            | Custom tracking | String                      | `2`
+`coffees`           | Food and drink | Integer                      | `0`
+`alcoholic_drinks`  | Food and drink | Integer                      | `0`
+`energy`            | Food and drink | Float (kJ)                   | `1`
+`water`             | Food and drink | Integer (ml)                 | `0`
+`carbohydrates`     | Food and drink | Float (g) | `1`
+`fat`               | Food and drink | Float (g) | `1`
+`fibre`             | Food and drink | Float (g) | `1`
+`protein`           | Food and drink | Float (g) | `1`
+`sodium`            | Food and drink | Float (mg) | `1`
+`cholesterol`       | Food and drink | Float (mg) | `1`
+`sugar`             | Food and drink | Float (mg) | `1`
+`caffeine`          | Food and drink | Float (mg) | `1`
+`money_spent`       | Finance      | Float (user's local currency unit) | `1`
+`mood`              | Mood         | Integer (between 1 and 5 inclusive)    | `0`
+`mood_note`         | Mood         | String (max 255 characters)    | `2`
+`sleep`             | Sleep        | Period (minutes as integer)    | `3`
+`time_in_bed`       | Sleep        | Period (minutes as integer)    | `3`
+`sleep_start`       | Sleep        | Time of day (minutes from midday as integer)   | `6`
+`sleep_end`         | Sleep        | Time of day (minutes from midnight as integer) | `4`
+`sleep_awakenings`  | Sleep        | Integer                        | `0`
+`events`            | Events       | Integer                        | `0`
+`events_duration`   | Events       | Period (minutes as integer)    | `3`
+`weight`            | Health       | Float (kg)                     | `1`
+`body_fat`          | Health       | Float (percentage, 0.0 to 1.0) | `5`
+`heartrate`         | Health       | Integer                        | `0`
+`meditation_min`    | Health       | Period (minutes as integer)    | `3`
+`checkins`          | Location     | Integer                        | `0`
+`location`          | Location     | String (`"lat,lng"` format where `lat` and `lng` are floats) | `2`
+`tracks`            | Media        | Integer                        | `0`
+`articles_read`     | Media        | Integer                        | `0`
+`instagram_posts`   | Social       | Integer                        | `0`
+`instagram_comments`| Social       | Integer                        | `0`
+`instagram_likes`   | Social       | Integer                        | `0`
+`instagram_username`| Social       | String                         | `2`
+`tweets`            | Twitter      | Integer                        | `0`
+`twitter_mentions`  | Twitter      | Integer                        | `0`
+`twitter_username`  | Twitter      | String                         | `2`
+`weather_temp_max`  | Weather      | Float (degrees Celsius)        | `1`
+`weather_temp_min`  | Weather      | Float (degrees Celsius)         | `1`
+`weather_precipitation` | Weather  | Float (inches of water per hour) | `1`
+`weather_cloud_cover`   | Weather  | Float (percentage of sky covered, 0.0 to 1.0) | `5`
+`weather_wind_speed`    | Weather  | Float (km/hr)                  | `1`
+`weather_summary`       | Weather  | String                         | `2`
+`weather_icon`          | Weather  | String (name of icon best representing weather values) | `2`
+`sunrise`               | Weather  | Time of day (minutes from midnight as integer) | `4`
+`sunset`                | Weather  | Time of day (minutes from midday as integer) | `6`
+
+## Custom tags
+
+> An example of the today endpoint's output for the custom group.
+
+```json
+
+{
+
+    "group": "custom",
+    "label": "Custom tracking",
+    "priority": 3,
+    "items": [
+        {
+            "attribute": "custom",
+            "label": "Custom tracking",
+            "value": "accounting,",
+            "service": "exist_for_android",
+            "priority": 1,
+            "private": true,
+            "value_type": 2,
+            "value_type_description": "String"
+        },
+        {
+            "attribute": "accounting",
+            "label": "Accounting",
+            "value": 1,
+            "service": "builtin",
+            "priority": 2,
+            "private": true,
+            "value_type": 0,
+            "value_type_description": "Integer"
+        },
+        {
+            "attribute": "tired",
+            "label": "Tired",
+            "value": 0,
+            "service": "builtin",
+            "priority": 2,
+            "private": true,
+            "value_type": 0,
+            "value_type_description": "Integer"
+        },
+        
+    ]
+}
+
+```
+
+Custom tags are represented as integer type attributes within the `custom` group, and are user-defined so unable to be listed here. Examples include tags like `meditation`, `tired`, and `sex`. 
+
+The `custom` attribute is a string representation of the tags a user has sent, but may be truncated to the last tag to fit within 250 characters. Using this string might be helpful to you as a quick and easy way to display tags, so feel free to use it if it suits your purposes, but is not the source of truth. To correctly get all tags for a day, collect all attribute names for attributes with a priority of 2 or higher, within the `custom` group, with a value of `1`. A value of `1` represents the "tagged" state, `0` meaning the tag was not used for that day.  
+
+Tag names are stored with spaces converted to underscores and should always be rendered with underscores converted back to spaces, to be more user-friendly.
 
 
 # Authentication overview
@@ -1114,6 +1169,8 @@ Name  | Description
 
 Only one service may have ownership of any user attribute at any given time. Services must acquire ownership of an attribute to be able to write data for this attribute, and can release ownership if needed, for example if the user closes their account with this service or chooses to turn off certain attributes.
 
+The process of acquiring an attribute only needs to happen once, not each time the attribute is updated, although you may get an error if you attempt to update an attribute you don't own.
+
 ## Acquire attributes
 
 ```shell
@@ -1274,7 +1331,7 @@ If you jumped straight here looking for how to send data for your own attributes
 
 1. Make sure you have an [OAuth2 client](#authentication-overview) set up
 2. Make sure you've listed all attributes you'd like to be able to write to (set this from your [app management page](https://exist.io/account/apps/))
-3. Make sure you have [acquired ownership](#attribute-ownership) of the attribute before updating
+3. Make sure you have [acquired ownership](#attribute-ownership) of the attribute before updating (just once, not each time)
 4. Now you can update.
 
 ## Updating attribute values
@@ -1284,7 +1341,6 @@ curl https://exist.io/api/1/attributes/update/ -H "Content-Type: application/jso
 ```
 
 ```python
-python
 import requests, json
 
 url = 'https://exist.io/api/1/attributes/update/'
@@ -1343,17 +1399,170 @@ Name  | Description
 Returns `200 OK` if all attributes were processed successfully, or `202 Accepted` if some attributes failed. The content is a JSON object containing `success` and `failed` arrays, where each item in the array is an attribute sent in the prior request. Failed attributes get `error` and `error_code` fields added. 
 
 
+# Updating custom tags
+
+There are two valid approaches here for sending tags:
+ 
+- managing all tags by acquiring the `custom` attribute,
+- using the `append` scope to write individual tags for a day, without being able to modify other tags.
+
+Both are documented below.
+
+## Validating tag names
+
+```python
+import re
+
+def validate_tag(raw_tag):
+    # for python 3: remove the 'u'
+    regex = re.compile(ur'[\W]', re.UNICODE)
+    
+    tag = raw_tag.replace(' ', '_')
+    tag = regex.sub('', tag)
+    tag = tag.strip('_')
+
+    if len(tag) == 0:
+        raise Exception("Tag '%s' contains too many invalid characters" % raw_tag)
+
+    return tag
+```
+
+Tags must be "slugs" that can contain only valid unicode letters, numbers, and underscores. Convert spaces to underscores, remove invalid characters, and make sure to trim leading and trailing whitespace. An example validation method is provided here in Python.   
+
+## Acquiring and managing all tags
+
+If you wish to manage all tags for a user, which you might do if you were writing an alternative "tag client" app, for example, you can handle this similarly to updating any other attribute. In this case, you acquire and update the `custom` attribute with a string of comma-separated tags. 
+
+This is a short-hand means for updating each tag attribute to have a value of `1` for the day. For example, sending a string value of `tired, sex` means these tags will have a value of `1` set, and all others will be set to `0`. The zeroing of other tags gives users an easy way to remove tags for a day, but this means care must be taken to not overwrite tags sent via the [append](#appending-specific-tags) method.
+
+### To get existing tags for a day
+
+If you are managing all tags and don't want to overwrite existing tags, you should:
+
+1. Get a list of all custom tag attributes
+2. Get the names of all attributes with a value of `1` for the day
+3. Concatenate these into one string, joined by commas
+4. Use this string as the starting value for your updates
+
+
+### To update tags
+
+1. Make sure your client app has permission to acquire the `custom` attribute (set this from your [app management page](https://exist.io/account/apps/))
+2. Make sure you have [acquired ownership](#attribute-ownership) of the `custom` attribute before updating (just once, not each time)
+3. Send a string value for `custom` containing a list of tags.  Tags must be sent as a comma-separated list of [validated tag names](#validating-tag-names). 
+
+To read and present tags, you can read about [custom tags values](#custom-tags).
+
+
+```shell
+curl https://exist.io/api/1/attributes/update/ -H "Content-Type: application/json" -H "Authorization: Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737" -X POST -d '[{"name":"custom", "date":"2015-05-20", "value":"tired, bike_ride, vitamin_d"}]'
+```
+
+```python
+import requests, json
+
+url = 'https://exist.io/api/1/attributes/update/'
+
+attributes = [{"name":"custom", "date":"2015-05-20", "value":"tired, bike_ride, vitamin_d"}]
+
+response = requests.post(url, headers={'Authorization':'Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737'},
+    data=json.dumps(attributes))
+```
+
+> Returns a JSON object containing successful and failed updates:
+
+```json
+{ "success": [ 
+    { "name":"custom",
+      "date":"2015-05-20",
+      "value":"tired, bike_ride, vitamin_d"
+    }
+  ],
+  "failed": []
+}
+```
+
+### Request
+
+`POST /api/1/attributes/update/`
+
+### Parameters
+
+Clients must send a JSON-encoded array of objects containing a `name`, `date`, and `value`.
+
+Name  | Description
+------|--------
+`name` | `custom`
+`date` | String of format `YYYY-mm-dd`
+`value` | A string of comma- (and optional space-) separated tags in the form `bike_ride, meditation, sex` 
+
+
+### Response
+
+Returns `200 OK` if all attributes were processed successfully, or `202 Accepted` if some attributes failed. The content is a JSON object containing `success` and `failed` arrays, where each item in the array is an attribute sent in the prior request. Failed attributes get `error` and `error_code` fields added. 
+
+
+## Appending specific tags
+
+This alternative method allows you to append tags to a day without ownership of the `custom` attribute. By using the `append` endpoint, you can send a list of tags, with optional dates, and have these tags added to the user's other tag selections for that day. This works well for event-based use cases, where a particular event might trigger a particular tag. You can easily send a single tag name, without date, to add it to the current day in the user's time zone.
+
+To use this endpoint, your client needs to have asked for the `append` permission with the current user. When following [the OAuth2 authentication process](#authorisation-flow), substitute `scope=append`, or `scope=read+write+append` if you also need write access.  
+
+
+```shell
+curl https://exist.io/api/1/attributes/custom/append/ -H "Content-Type: application/json" -H "Authorization: Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737" -X POST -d '[{"value":"bike_ride", "date":"2017-05-20"}]'
+```
+
+```python
+import requests, json
+
+url = 'https://exist.io/api/1/attributes/custom/append/'
+
+tags = [{"value":"bike_ride", "date":"2017-05-20"}]
+
+response = requests.post(url, headers={'Authorization':'Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737'},
+    data=json.dumps(tags))
+```
+
+> Returns a JSON object containing successful and failed updates:
+
+```json
+{ "success": [ 
+    { "date":"2015-05-20",
+      "value":"bike_ride"
+    }
+  ],
+  "failed": []
+}
+```
+
+### Request
+
+`POST /api/1/attributes/custom/append/`
+
+### Parameters
+
+Clients must send either:
+
+- a JSON-encoded array of objects containing a `value` and optional `date`
+- a single JSON object with a `value` and optional `date`
+
+Name  | Description
+------|--------
+`value` | The [validated name](#validating-tags) of the tag to append
+`date` | Optional string of format `YYYY-mm-dd`. If omitted, current day is assumed
+ 
+
+### Response
+
+Returns `200 OK` if all tags were processed successfully, or `202 Accepted` if some attributes failed. The content is a JSON object containing `success` and `failed` arrays, where each item in the array is an attribute sent in the prior request. Failed attributes get `error` and `error_code` fields added. 
 
 
 # API roadmap
 
-## Upcoming
-
-Our main ongoing priority is extending the list of supported attributes so users can track a wider range of things.
-Please let us know if you'd like to see a certain attribute or data type supported.
-
 ## Changelog
 
+* **2017-09-27:** Custom tags now available from the API
 * **2015-12-01:** OAuth2 clients are available for all users
 * **2015-10-05:** Removed separate value fields in insights, added rendered text field
 * **2015-07-09:** Introduced attribute validation and started validating `mood` values
