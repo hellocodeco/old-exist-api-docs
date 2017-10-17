@@ -1519,6 +1519,8 @@ import requests, json
 url = 'https://exist.io/api/1/attributes/custom/append/'
 
 tags = [{"value":"bike_ride", "date":"2017-05-20"}]
+# alternatively you could send a single value for today
+tags = {"value":"bike_ride"}
 
 response = requests.post(url, headers={'Authorization':'Bearer 96524c5ca126d87eb18ee7eff408ca0e71e94737'},
     data=json.dumps(tags))
