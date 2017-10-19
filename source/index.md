@@ -680,9 +680,7 @@ requests.get("https://exist.io/api/1/users/$self/today/",
 Returns an overview of the user's personal details, and their grouped attributes containing current values.
 This is analogous to the "Today" tiles in the dashboard.
 
-When requesting the currently authenticated user, you will receive all attributes.
-
-For **other** **public** users, private attributes will not be returned. For other **private** users,
+When requesting the currently authenticated user, you will receive all attributes. For other users,
 this will return a user stub.
 
 ### Request
