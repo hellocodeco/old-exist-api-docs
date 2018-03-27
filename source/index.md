@@ -310,9 +310,9 @@ Name                | Group        | Value type description         | Value type
 `fat`               | Food and drink | Float (g) | `1`
 `fibre`             | Food and drink | Float (g) | `1`
 `protein`           | Food and drink | Float (g) | `1`
+`sugar`             | Food and drink | Float (g) | `1`
 `sodium`            | Food and drink | Float (mg) | `1`
 `cholesterol`       | Food and drink | Float (mg) | `1`
-`sugar`             | Food and drink | Float (mg) | `1`
 `caffeine`          | Food and drink | Float (mg) | `1`
 `money_spent`       | Finance      | Float (user's local currency unit) | `1`
 `mood`              | Mood         | Integer (between 1 and 5 inclusive)    | `0`
