@@ -336,6 +336,9 @@ Name                | Group        | Value type description         | Value type
 `instagram_comments`| Social       | Integer                        | `0`
 `instagram_likes`   | Social       | Integer                        | `0`
 `instagram_username`| Social       | String                         | `2`
+`facebook_posts`    | Social       | Integer                        | `0`
+`facebook_comments` | Social       | Integer                        | `0`
+`facebook_reactions`| Social       | Integer                        | `0`
 `tweets`            | Twitter      | Integer                        | `0`
 `twitter_mentions`  | Twitter      | Integer                        | `0`
 `twitter_username`  | Twitter      | String                         | `2`
