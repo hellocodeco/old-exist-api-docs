@@ -8,7 +8,7 @@ language_tabs:
 toc_footers:
   - <a href="https://exist.io">Sign up for an account</a>
   - <a href="https://confirmsubscription.com/h/t/2E3A4057D66FD499">Developer mailing list</a>
-  - <a href="http://github.com/tripit/slate">Docs powered by Slate</a>
+  - <a href="https://github.com/hellocodeco/exist-api-docs">Contribute on Github</a>
 
 includes:
   
