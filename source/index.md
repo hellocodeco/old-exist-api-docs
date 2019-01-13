@@ -783,7 +783,7 @@ curl -H "Authorization: Token [YOUR_TOKEN]" https://exist.io/api/1/users/\$self/
 ```python
 import requests
 
-requests.get("https://exist.io/api/1/users/$self/attributes/attribute/steps/",
+requests.get("https://exist.io/api/1/users/$self/attributes/steps/",
     headers={'Authorization':'Token [YOUR_TOKEN]'})
 ```
 
