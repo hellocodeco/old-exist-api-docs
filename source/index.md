@@ -290,6 +290,7 @@ Name                | Group        | Value type description         | Value type
 `steps_distance`    | Activity     | Float (km)                     | `1`
 `cycle_min`         | Activity     | Period (minutes as integer)    | `3`
 `cycle_distance`    | Activity     | Float (km)                     | `1`
+`active_energy` | Activity | Float (kJ) | `1`
 `workouts`          | Workouts     | Integer                        | `0`
 `workouts_min`      | Workouts     | Period (minutes as integer)    | `3`
 `workouts_distance` | Workouts     | Float (km)                     | `1`
@@ -301,6 +302,8 @@ Name                | Group        | Value type description         | Value type
 `words_written`     | Productivity | Integer                        | `0`
 `emails_sent`       | Productivity | Integer                        | `0`
 `emails_received`   | Productivity | Integer                        | `0`
+`pomodoros_min` | Productivity | Period (minutes as integer) | `3`
+`keystrokes` | Productivity | Period (minutes as integer) | `3`
 `custom`            | Custom tracking | String                      | `2`
 `coffees`           | Food and drink | Integer                      | `0`
 `alcoholic_drinks`  | Food and drink | Integer                      | `0`
@@ -326,12 +329,21 @@ Name                | Group        | Value type description         | Value type
 `events_duration`   | Events       | Period (minutes as integer)    | `3`
 `weight`            | Health       | Float (kg)                     | `1`
 `body_fat`          | Health       | Float (percentage, 0.0 to 1.0) | `5`
+`lean_mass` | Health | Float (kg) | `1`
 `heartrate`         | Health       | Integer                        | `0`
+`heartrate_max` | Health | Integer | `0`
+`heartrate_resting` | Health | Integer | `0`
 `meditation_min`    | Health       | Period (minutes as integer)    | `3`
+`menstrual_flow` | Health | Integer (`0`=none, `1`=spotting, `2`=light, `3`=medium, `4`=heavy) | `0`
+`sexual_activity` | Health | Integer | `0`
 `checkins`          | Location     | Integer                        | `0`
 `location`          | Location     | String (`"lat,lng"` format where `lat` and `lng` are floats) | `2`
 `tracks`            | Media        | Integer                        | `0`
 `articles_read`     | Media        | Integer                        | `0`
+`pages_read`     | Media        | Integer                        | `0`
+`mobile_screen_min`     | Media        | Period (minutes as integer)                        | `3`
+`gaming_min`     | Media        | Period (minutes as integer)                        | `3`
+`tv_min`     | Media        | Period (minutes as integer)                        | `3`
 `instagram_posts`   | Social       | Integer                        | `0`
 `instagram_comments`| Social       | Integer                        | `0`
 `instagram_likes`   | Social       | Integer                        | `0`
