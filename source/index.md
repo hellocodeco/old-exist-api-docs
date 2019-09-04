@@ -167,14 +167,26 @@ See [list of supported attributes](#list-of-attributes).
 
 ```json
 {
-    "date": "2015-05-03",
-    "period": 90,
-    "attribute": "steps",
-    "attribute2": "floors",
-    "value": 0.697409107405056,
-    "p": 2.22989517679296e-14,
-    "first_person": "I am much more likely (70%) to climb floors on days I take more steps.",
-    "second_person": "You are much more likely (70%) to climb floors on days you take more steps."
+    "date": "2015-05-11", 
+    "period": 90, 
+    "attribute": "steps", 
+    "attribute2": "steps_distance", 
+    "value": 0.999735821732415,
+    "p": 5.43055953485446e-146,
+    "percentage": 43.254411196924906,
+    "stars": 2,
+    "second_person": "You get more steps when you spend more time active.",
+    "second_person_elements": [
+        "you get more steps",
+        "when",
+        "you spend more time active"
+    ],
+    "attribute_category": null,
+    "strength_description": "Quite often go together",
+    "stars_description": "Certain to be related",
+    "description": null,
+    "occurrence": null,
+    "rating": null
 }
 ```
 
