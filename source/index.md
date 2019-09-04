@@ -1188,20 +1188,47 @@ requests.get("https://exist.io/api/1/users/$self/correlations/attribute/steps/",
             "period": 90, 
             "attribute": "steps", 
             "attribute2": "steps_distance", 
-            "value": 0.999735821732415, 
-            "p": 5.43055953485446e-146, 
-            "first_person": "I am almost certain (100%) to travel a further distance on days I take more steps.", 
-            "second_person": "You are almost certain (100%) to travel a further distance on days you take more steps."
+            "value": 0.999735821732415,
+            "p": 5.43055953485446e-146,
+            "percentage": 43.254411196924906,
+            "stars": 2,
+            "second_person": "You get more steps when you spend more time active.",
+            "second_person_elements": [
+                "you get more steps",
+                "when",
+                "you spend more time active"
+            ],
+            "attribute_category": null,
+            "strength_description": "Quite often go together",
+            "stars_description": "Certain to be related",
+            "description": null,
+            "occurrence": null,
+            "rating": null
         }, 
         {
-            "date": "2015-05-11", 
-            "period": 90, 
-            "attribute": "steps", 
-            "attribute2": "floors", 
-            "value": 0.693332839316818, 
-            "p": 3.63477333939521e-14, 
-            "first_person": "I am much more likely (69%) to climb floors on days I take more steps.", 
-            "second_person": "You are much more likely (69%) to climb floors on days you take more steps."
+            "date": "2019-09-01",
+            "period": 365,
+            "attribute": "steps",
+            "attribute2": "floors",
+            "value": 0.389185953425964,
+            "p": 1.2396329763201e-11,
+            "percentage": 38.918595342596404,
+            "stars": 5,
+            "second_person": "You get more steps when you climb more floors.",
+            "second_person_elements": [
+                "you get more steps",
+                "when",
+                "you climb more floors"
+            ],
+            "attribute_category": null,
+            "strength_description": "Quite often go together",
+            "stars_description": "Certain to be related",
+            "description": "If you're out and about and walking around more, you're also more likely to be climbing floors. Especially if your home or workplace is multi-level.",
+            "occurrence": "Common",
+            "rating": {
+                "positive": false,
+                "rating": "Too obvious"
+            }
         }
     ]
 }
@@ -1243,26 +1270,57 @@ requests.get("https://exist.io/api/1/users/$self/correlations/strongest/",
 > Returns a JSON array:
 
 ```json
-[
+{
+    "count": 479, 
+    "next": "https://exist.io/api/1/users/josh/correlations/attribute/steps/?page=2", 
+    "previous": null, 
+    "results": [
         {
             "date": "2015-05-11", 
             "period": 90, 
             "attribute": "steps", 
             "attribute2": "steps_distance", 
-            "value": 0.999735821732415, 
-            "p": 5.43055953485446e-146, 
-            "first_person": "I am almost certain (100%) to travel a further distance on days I take more steps.", 
-            "second_person": "You are almost certain (100%) to travel a further distance on days you take more steps."
+            "value": 0.999735821732415,
+            "p": 5.43055953485446e-146,
+            "percentage": 43.254411196924906,
+            "stars": 2,
+            "second_person": "You get more steps when you spend more time active.",
+            "second_person_elements": [
+                "you get more steps",
+                "when",
+                "you spend more time active"
+            ],
+            "attribute_category": null,
+            "strength_description": "Quite often go together",
+            "stars_description": "Certain to be related",
+            "description": null,
+            "occurrence": null,
+            "rating": null
         }, 
         {
-            "date": "2015-05-11", 
-            "period": 90, 
-            "attribute": "steps", 
-            "attribute2": "floors", 
-            "value": 0.693332839316818, 
-            "p": 3.63477333939521e-14, 
-            "first_person": "I am much more likely (69%) to climb floors on days I take more steps.", 
-            "second_person": "You are much more likely (69%) to climb floors on days you take more steps."
+            "date": "2019-09-01",
+            "period": 365,
+            "attribute": "steps",
+            "attribute2": "floors",
+            "value": 0.389185953425964,
+            "p": 1.2396329763201e-11,
+            "percentage": 38.918595342596404,
+            "stars": 5,
+            "second_person": "You get more steps when you climb more floors.",
+            "second_person_elements": [
+                "you get more steps",
+                "when",
+                "you climb more floors"
+            ],
+            "attribute_category": null,
+            "strength_description": "Quite often go together",
+            "stars_description": "Certain to be related",
+            "description": "If you're out and about and walking around more, you're also more likely to be climbing floors. Especially if your home or workplace is multi-level.",
+            "occurrence": "Common",
+            "rating": {
+                "positive": false,
+                "rating": "Too obvious"
+            }
         }
     ]
 }
