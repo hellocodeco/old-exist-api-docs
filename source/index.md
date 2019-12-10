@@ -331,7 +331,7 @@ Name                | Group        | Value type description         | Value type
 `caffeine`          | Food and drink | Float (mg) | `1`
 `money_spent`       | Finance      | Float (user's local currency unit) | `1`
 `mood`              | Mood         | Integer (between 1 and 5 inclusive)    | `0`
-`mood_note`         | Mood         | String (max 255 characters)    | `2`
+`mood_note`         | Mood         | String (max 250 characters)    | `2`
 `sleep`             | Sleep        | Period (minutes as integer)    | `3`
 `time_in_bed`       | Sleep        | Period (minutes as integer)    | `3`
 `sleep_start`       | Sleep        | Time of day (minutes from midday as integer)   | `6`
@@ -787,7 +787,11 @@ requests.get("https://exist.io/api/1/users/$self/attributes/",
     {
         "attribute": "steps",
         "label": "Steps",
-        "group": "activity",
+        "group": {
+            "name": "activity",
+            "label": "Activity",
+            "priority": 1
+        },
         "service": "Fitbit",
         "private": false,
         "values": [
@@ -824,7 +828,11 @@ requests.get("https://exist.io/api/1/users/$self/attributes/",
     {
         "attribute": "floors",
         "label": "Floors",
-        "group": "activity",
+        "group": {
+            "name": "activity",
+            "label": "Activity",
+            "priority": 1
+        },
         "service": "Fitbit",
         "private": false,
         "values": [ ]
@@ -844,9 +852,9 @@ If you need to get a specific date range or combination of attribute values, you
 
 Name  | Description
 ------|--------
-`limit` | Number of values to return, starting with today. Optional, max is 31.
-`attributes` | Optional comma-separated list of attributes, eg. `mood,mood_note`
-`date_min`   | Optional date specifying the oldest value that can be returned, in format `YYYY-mm-dd`.
+`limit` | Number of values to return, starting with the newest date. Optional, max is 31.
+`attributes` | Optional comma-separated list of attributes, e.g. `mood,mood_note`
+`groups`     | Optional comma-separated list of groups to filter attributes by, e.g. `mood,health`
 `date_max`   | Optional date specifying the newest value that can be returned, in format `YYYY-mm-dd`.
 
 ## Get a specific attribute
@@ -909,7 +917,6 @@ Name  | Description
 ------|--------
 `limit` | Number of values to return per page. Optional, max is 100.
 `page`  | Page index. Optional, default is 1.
-`date_min` | Oldest date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
 `date_max` | Most recent date (inclusive) of results to be returned, in format `YYYY-mm-dd`. Optional.
 
 
