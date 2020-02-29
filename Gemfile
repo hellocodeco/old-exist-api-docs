@@ -7,5 +7,5 @@ gem 'middleman-syntax', '~> 2.0.0'
 gem 'rouge', '~> 1.8.0'
 gem 'redcarpet', '~> 3.2.2'
 
-gem 'rake', '~> 10.4.2'
+gem 'rake', '~> 12.3.3'
 gem 'therubyracer', '~> 0.12.1', platforms: :ruby
