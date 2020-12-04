@@ -356,10 +356,6 @@ Name                | Group        | Value type description         | Value type
 `mobile_screen_min`     | Media        | Period (minutes as integer)                        | `3`
 `gaming_min`     | Media        | Period (minutes as integer)                        | `3`
 `tv_min`     | Media        | Period (minutes as integer)                        | `3`
-`instagram_posts`   | Social       | Integer                        | `0`
-`instagram_comments`| Social       | Integer                        | `0`
-`instagram_likes`   | Social       | Integer                        | `0`
-`instagram_username`| Social       | String                         | `2`
 `facebook_posts`    | Social       | Integer                        | `0`
 `facebook_comments` | Social       | Integer                        | `0`
 `facebook_reactions`| Social       | Integer                        | `0`
