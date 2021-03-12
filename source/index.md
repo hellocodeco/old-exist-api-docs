@@ -51,7 +51,7 @@ Name | Value
 **API base URL**     | `https://exist.io/api/1/`
 **OAuth2 base URL**  | `https://exist.io/oauth2/`
 **Response type**| `application/json`
-**Rate-limiting**| 300 requests/hr per user token
+**Rate-limiting**| 300 requests/hr per user token, updating max. 35 objects per POST request
 **POSTing data** | `application/x-www-form-urlencoded` (the usual) or send the body as `application/json`
 **OAuth2 auth header** | `Authorization: Bearer [tokenxyz]`
 **Simple token auth header** | `Authorization: Token [tokenabc]`
