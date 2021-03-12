@@ -330,8 +330,8 @@ Name                | Group        | Value type description         | Value type
 `cholesterol`       | Food and drink | Float (mg) | `1`
 `caffeine`          | Food and drink | Float (mg) | `1`
 `money_spent`       | Finance      | Float (user's local currency unit) | `1`
-`mood`              | Mood         | Integer (between 1 and 5 inclusive)    | `0`
-`mood_note`         | Mood         | String (max 250 characters)    | `2`
+`mood`              | Mood         | Integer (between 1 and 9 inclusive)    | `0`
+`mood_note`         | Mood         | String (max 1000 characters)    | `2`
 `sleep`             | Sleep        | Period (minutes as integer)    | `3`
 `time_in_bed`       | Sleep        | Period (minutes as integer)    | `3`
 `sleep_start`       | Sleep        | Time of day (minutes from midday as integer)   | `6`
